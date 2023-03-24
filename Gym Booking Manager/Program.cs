@@ -15,28 +15,62 @@ namespace Gym_Booking_Manager
         {
             /* ---------------------------------------------------->START<------------------------------------------------------------------ */
             GymDatabaseContext DB = new GymDatabaseContext();
-            /*
+            Console.WriteLine("Read and print from DB Test\n");
             foreach (Admin s in DB.Read<Admin>())
             {
                 Console.WriteLine(s);
             }
-            foreach (Admin s in DB.Read<Admin>())
+            Console.WriteLine("\nPRESS ANY KEY TO RUN THE NEXT TEST...");
+            Console.ReadKey();
+            Console.WriteLine("\nUpdate and print from DB Test\n");
+            foreach (var c in DB.Read<Customer>())
             {
-                if (s.name == "Admi")
+                if (c.name == "Kustömer")
                 {
-                    DB.Update(new Admin("testAdmin", "0000000", "test@test.se", s.Id),s);
+                    Console.WriteLine($"Original values:\n" +
+                                      $"{c.name},{c.phone},{c.email},{c.Id}");
                 }
             }
-            foreach (Admin s in DB.Read<Admin>())
+            foreach (var c in DB.Read<Customer>())
             {
-                Console.WriteLine(s);
+                if (c.name == "Kustömer")
+                {
+                    DB.Update(new Customer("NewCust", "070-01 10 01", "Updatedmail@test.se", c.Id), c);
+                }
             }
+            Console.WriteLine();
+            foreach (var c in DB.Read<Customer>())
+            {
+                if (c.name == "NewCust")
+                {
+                    Console.WriteLine($"Updated values:\n" +
+                                      $"{c.name},{c.phone},{c.email},{c.Id}");
+                }
+            }
+            Console.WriteLine("\nPRESS ANY KEY TO RUN THE NEXT TEST...");
             Console.ReadKey();
-            foreach (Instructor eq in DB.Read<Instructor>())
+            Console.WriteLine("\nDELETE USER and print from DB Test\n");
+            Console.WriteLine("Current users in DB:\n");
+            foreach (var c in DB.Read<Customer>())
             {
-                Console.WriteLine(eq);
+                Console.WriteLine(c);
             }
-            */
+            Console.WriteLine();
+            foreach (var c in DB.Read<Customer>())
+            {
+                if (c.name == "NewCust")
+                {
+                    DB.Delete(c);
+                }
+            }
+            Console.WriteLine("\nUsers after deletion:\n");
+            foreach (var c in DB.Read<Customer>())
+            {
+                Console.WriteLine(c);
+            }
+            Console.WriteLine("\nALL TESTS COMPLETED, PRESS ANY KEY TO CONTINUE");
+            Console.ReadKey();
+            Console.Clear();
             User user = null;
             Console.WriteLine("Hi, there! Welcome to our program. Hope you will enjoy it.");
             Console.WriteLine("Do you want to create a new user(1) or select a existing one(2)?");
