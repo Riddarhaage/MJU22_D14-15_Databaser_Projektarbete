@@ -72,8 +72,8 @@ namespace Gym_Booking_Manager
         //For future use 
         public override string ToString()
         {
-            return $"Activity: {activityID}\ninstructor: {Instructor.Name}\n{timeSlot}\nSpace: {space.Name}" +
-                $"\nParticipants: {PartisipantsToString()} (Free slots left: {participantLimit - participants.Count})\nEquipment: {equipment.Name}";
+            return $"Activity: {activityID}\ninstructor: {Instructor.name}\n{timeSlot}\nSpace: {space.Name}" +
+                $"\nParticipants: {PartisipantsToString()} (Free slots left: {participantLimit - participants.Count})\nEquipment: {equipment.name}";
         }
         public  GroupActivity CreateActivity(GymDatabaseContext DB)
         {
@@ -87,7 +87,7 @@ namespace Gym_Booking_Manager
             int i = 1;
             foreach (Instructor instructor in DB.Read<Instructor>())
             {
-                Console.WriteLine($"{i}. {instructor.Name}");
+                Console.WriteLine($"{i}. {instructor.name}");
                 i++;
             }
             int instructorChoice = int.Parse(Console.ReadLine());
@@ -103,7 +103,7 @@ namespace Gym_Booking_Manager
             i = 1;
             foreach (Equipment equipment in DB.Read<Equipment>())
             {
-                Console.WriteLine($"{i}. {equipment.Name}");
+                Console.WriteLine($"{i}. {equipment.name}");
                 i++;
             }
             int equipmentChoice = int.Parse(Console.ReadLine());

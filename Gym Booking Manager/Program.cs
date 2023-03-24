@@ -13,11 +13,27 @@ namespace Gym_Booking_Manager
 
         static void Main(string[] args)
         {
+            //Customer ruben = new Customer("Ruben", "011-131313", "ruben@test.se", Guid.NewGuid());
             /* ---------------------------------------------------->START<------------------------------------------------------------------ */
-
             GymDatabaseContext DB = new GymDatabaseContext();
+            //DB.Create(ruben);
+            foreach (Staff staff in DB.Read<Staff>())
+            {
+                Console.WriteLine(staff);
+            }
+            foreach (Admin s in DB.Read<Admin>())
+            {
+                if (s.name == "Rune")
+                {
+                    DB.Delete(s);
+                }
+            }
+            Console.ReadKey();
+            foreach (Instructor eq in DB.Read<Instructor>())
+            {
+                Console.WriteLine(eq);
+            }
             User user = null;
-
             Console.WriteLine("Hi, there! Welcome to our program. Hope you will enjoy it.");
             Console.WriteLine("Do you want to create a new user(1) or select a existing one(2)?");
             int answer = Convert.ToInt32(Console.ReadLine());
@@ -31,8 +47,9 @@ namespace Gym_Booking_Manager
             else if (answer == 2)
             {
                 Console.WriteLine("Enter ID:");
-                string id = Console.ReadLine(); // <--- Green.
-                user = User.GetUserById(DB, id);
+                string Id = Console.ReadLine(); // <--- Green.
+                user = User.GetUserById(DB, Id);
+                Console.WriteLine("ur ID = " + user.Id);
                 if (user == null) { Console.WriteLine("Get Bent.(No user)."); }
             }
             else

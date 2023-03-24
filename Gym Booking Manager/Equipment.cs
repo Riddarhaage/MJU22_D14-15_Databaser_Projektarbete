@@ -11,36 +11,31 @@ namespace Gym_Booking_Manager
     internal class Equipment: IReservable, ICSVable, IComparable<Equipment>
     {
         //private enum Category with 2 subcategories large equipment and sports equipment where we list the diffrenet kinds of each equipment subcategory?
-        private Category category;
-        private String name;
-        private readonly Calendar calendar;
-        private int quantity;
-        private bool largeEquipment;
-
-        public string Name { get => name; }
-        public int Quantity { get => quantity; set => quantity = value; }
-
-        public Equipment(Category category, String name, int quantity, bool largeEquipment = true)
+        private Category category
         {
-            this.category = category;
-            this.name = name;
-            this.quantity = quantity;
-            this.largeEquipment = largeEquipment;
-            this.calendar = new Calendar();
+            get; set;
         }
-        // Every class T to be used for DbSet<T> needs a constructor with this parameter signature. Make sure the object is properly initialized.
+        public String name { get; set; }
+        private readonly Calendar calendar;
+        public int quantity { get; set; }
+        public bool large_equipment { get; set; }
+        //public int Quantity { get => quantity; set => quantity = value; }
+
+        public Equipment()
+        {
+            
+        }
         public Equipment(Dictionary<String, String> constructionArgs)
         {
-            this.name = constructionArgs[nameof(name)];
-            this.quantity = int.Parse(constructionArgs[nameof(quantity)]);
-            this.largeEquipment = bool.Parse(constructionArgs[nameof(largeEquipment)]);
-            if (!Category.TryParse(constructionArgs[nameof(category)], out this.category))
+            if (!Enum.TryParse(constructionArgs[nameof(category)], out Category parsedCategory))
             {
                 throw new ArgumentException("Couldn't parse a valid Space.Category value.", nameof(category));
             }
+            this.category = parsedCategory;
 
             this.calendar = new Calendar();
         }
+        // Every class T to be used for DbSet<T> needs a constructor with this parameter signature. Make sure the object is properly initialized.
         public int CompareTo(Equipment? other)
         {
             // If other is not a valid object reference, this instance is greater.
@@ -52,7 +47,7 @@ namespace Gym_Booking_Manager
         }
         public override string ToString()
         {
-            if (!this.largeEquipment)
+            if (!this.large_equipment)
                 return $"{this.name}, quantity:{this.quantity}, category:{this.category}, small equipment";
             else
                 return $"{this.name}, quantity:{this.quantity}, category:{this.category}, large equipment";
@@ -61,7 +56,7 @@ namespace Gym_Booking_Manager
         // Every class C to be used for DbSet<C> should have the ICSVable interface and the following implementation.
         public string CSVify()
         {
-            return $"{nameof(category)}:{category.ToString()},{nameof(name)}:{name},{nameof(quantity)}:{quantity.ToString()},{nameof(largeEquipment)}:{largeEquipment.ToString()}";
+            return $"{nameof(category)}:{category.ToString()},{nameof(name)}:{name},{nameof(quantity)}:{quantity.ToString()},{nameof(large_equipment)}:{large_equipment.ToString()}";
         }
 
         //This enum contains just exampels of equipment
@@ -160,14 +155,14 @@ namespace Gym_Booking_Manager
                 Customer customer1 = DB.Read<Customer>()[choice2 - 1];
                 equipment1.MakeReservation(choice1, customer1, timeSlot);
                 equipment1.ViewTimeTable();
-                Console.WriteLine($"quantity: {equipment1.Quantity}.");
+                Console.WriteLine($"quantity: {equipment1.quantity}.");
             }
             else
             {
                 equipment1.MakeReservation(choice1, user, timeSlot);
-                equipment1.Quantity--;
+                equipment1.quantity--;
                 equipment1.ViewTimeTable();
-                Console.WriteLine($"quantity: {equipment1.Quantity}.");
+                Console.WriteLine($"quantity: {equipment1.quantity}.");
             }
         }
     }

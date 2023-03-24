@@ -34,6 +34,9 @@ namespace Gym_Booking_Manager
             this.name = name;
             this.calendar = new Calendar();
         }
+        public Space()
+        {
+        }
 
         // Every class T to be used for DbSet<T> needs a constructor with this parameter signature. Make sure the object is properly initialized.
         public Space(Dictionary<String, String> constructionArgs)

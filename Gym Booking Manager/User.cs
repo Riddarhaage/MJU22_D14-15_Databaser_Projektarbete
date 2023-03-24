@@ -29,6 +29,14 @@ namespace Gym_Booking_Manager
             this.perm = 0;
             this.Id = new Guid();
         }
+        protected User()
+        {
+            this.name = name;
+            this.phone = "0";
+            this.email = "test@test";
+            this.perm = 0;
+            this.Id = new Guid();
+        }
         public string CSVify()
         {
             throw new NotImplementedException();
@@ -141,6 +149,10 @@ namespace Gym_Booking_Manager
 
     internal class Staff : User, ICSVable, IComparable<Staff>
     {
+        public Staff()
+        {
+
+        }
         public Staff(string name, string phone, string email, Guid Id) : base(name)
         {
             this.perm = 1;
@@ -214,6 +226,10 @@ namespace Gym_Booking_Manager
 
     internal class Admin : User, ICSVable, IComparable<Admin>
     {
+        public Admin()
+        {
+
+        }
         public Admin(string name, string phone, string email, Guid Id) : base(name)
         {
             this.perm = 2;
@@ -357,6 +373,13 @@ namespace Gym_Booking_Manager
 
     internal class Customer : User, ICSVable, IComparable<Customer>, IReservingEntity
     {
+        public Customer()
+        {
+            this.perm = 0;
+            this.phone = phone;
+            this.email = email;
+            this.Id = Id;
+        }
         public Customer(string name, string phone, string email, Guid Id) : base(name)
         {
             this.perm = 0;

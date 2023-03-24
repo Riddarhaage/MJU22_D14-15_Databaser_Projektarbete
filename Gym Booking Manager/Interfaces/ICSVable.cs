@@ -12,6 +12,7 @@ namespace Gym_Booking_Manager
 {
     internal interface ICSVable
     {
+   
         public string CSVify();
     }
 }

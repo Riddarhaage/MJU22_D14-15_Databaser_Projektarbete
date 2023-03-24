@@ -8,13 +8,16 @@ namespace Gym_Booking_Manager
 {
     internal class Instructor: IReservable, ICSVable, IComparable<Instructor>
     {
-        private Category category;
-        private String name;
+        private Category category { get; set; }
+        public string name { get; set; }
         private readonly Calendar calendar;
         private int quantity = 1;
 
-        public string Name { get => name; }
 
+        public Instructor()
+        {
+
+        }
         public Instructor(Category category, String name)
         {
             this.name = name;
@@ -24,11 +27,11 @@ namespace Gym_Booking_Manager
         // Every class T to be used for DbSet<T> needs a constructor with this parameter signature. Make sure the object is properly initialized.
         public Instructor(Dictionary<String, String> constructionArgs)
         {
-            this.name = constructionArgs[nameof(name)];
-            if (!Category.TryParse(constructionArgs[nameof(category)], out this.category))
+            if (!Enum.TryParse(constructionArgs[nameof(category)], out Category parsedCategory))
             {
                 throw new ArgumentException("Couldn't parse a valid Space.Category value.", nameof(category));
             }
+            this.category = parsedCategory;
 
             this.calendar = new Calendar();
         }
@@ -43,7 +46,7 @@ namespace Gym_Booking_Manager
         }
         public override string ToString()
         {
-            return this.CSVify(); // TODO: Don't use CSVify. Make it more readable.
+            return $"{name}, {category}"; // TODO: Don't use CSVify. Make it more readable.
         }
 
         public string CSVify()

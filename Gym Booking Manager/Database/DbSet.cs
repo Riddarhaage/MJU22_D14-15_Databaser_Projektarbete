@@ -22,7 +22,11 @@ namespace Gym_Booking_Manager
                 this.dataFile = dataFile;
                 this.entities = new SortedSet<T>();
             }
-
+            public DbSet(string DBconnection, string dataFile)
+            {
+                this.dataFile = dataFile;
+                this.entities = new SortedSet<T>();
+            }
             /* NOTE: There are many things to consider in regards to reinventing database basics with local file i/o management.
              * This section of code is not meant to show best practices.
              * 
