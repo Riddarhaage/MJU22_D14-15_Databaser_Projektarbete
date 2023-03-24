@@ -21,9 +21,9 @@ namespace Gym_Booking_Manager
             using (var conn = new NpgsqlConnection(connectionString))
             {
                 conn.Open();
-                var type = entity.GetType();
-                var properties = type.GetProperties();
-                var tableName = type.Name;
+                var type = entity.GetType();            //<-- hämtar typen av objektet, t.ex. "Customer"
+                var properties = type.GetProperties();  //<-- hämtar alla properties från klassen
+                var tableName = type.Name;        
                 var columns = new List<string>();
                 var values = new List<string>();
                 foreach (var property in properties)
@@ -35,10 +35,11 @@ namespace Gym_Booking_Manager
                         values.Add(value.ToString());
                     }
                 }
-                var sql = $"INSERT INTO {tableName} ({string.Join(", ", columns.Select(c => $"\"{c}\""))}) VALUES ({string.Join(", ", values.Select(v => $"'{v}'"))})";
+                var sql = $"INSERT INTO {tableName} ({string.Join(", ", columns.Select(c => $"\"{c}\""))})" + //<-- knepig sträng för att postgres inte ska balla ur
+                          $" VALUES ({string.Join(", ", values.Select(v => $"'{v}'"))})";
                 using (var cmd = new NpgsqlCommand(sql, conn))
                 {
-                    cmd.ExecuteNonQuery();
+                    cmd.ExecuteNonQuery(); //<-- kör sql-kommandot
                 }
             }
             return true;
@@ -52,7 +53,7 @@ namespace Gym_Booking_Manager
                 var properties = type.GetProperties();
                 var tableName = type.Name;
                 var columns = new List<string>();
-                var values = new List<string>();
+                var values = new List<string>();                              //Tror inte jag behöver förklara något här :)
                 foreach (var property in properties)
                 {
                     var value = property.GetValue(entity);
@@ -89,19 +90,19 @@ namespace Gym_Booking_Manager
                         var entities = new List<T>();
                         while (reader.Read())
                         {
-                            var entity = Activator.CreateInstance<T>();
+                            var entity = Activator.CreateInstance<T>(); //<-- skapar objekt av typen T
                             var properties = type.GetProperties();
                             foreach (var property in properties)
                             {
                                var value2 = reader[property.Name];
                                 if (value2 != DBNull.Value)
                                 {
-                                    property.SetValue(entity, value2);
+                                    property.SetValue(entity, value2); //<-- sätter värdet på propertyn
                                 }
                             }
-                            entities.Add(entity);
+                            entities.Add(entity); //<-- lägger till objektet i listan
                         }
-                        return entities;
+                        return entities; //<-- returnerar listan
                     }
                 }
             }
@@ -128,11 +129,11 @@ namespace Gym_Booking_Manager
                         oldValues.Add(oldValue.ToString());
                     }
                 }
-                for (int i = 0; i < columns.Count; i++)
+                for (int i = 0; i < columns.Count; i++) //<-- loopar igenom alla kolumner
                 {
-                    if (values[i] != oldValues[i])
+                    if (values[i] != oldValues[i]) //<-- kollar om värdet har ändrats
                     {
-                        var sql = $"UPDATE {tableName} SET {columns[i]} = '{values[i]}' WHERE {columns[i]} = '{oldValues[i]}'";
+                        var sql = $"UPDATE {tableName} SET {columns[i]} = '{values[i]}' WHERE {columns[i]} = '{oldValues[i]}'"; //<-- uppdaterar värdet
                         using (var cmd = new NpgsqlCommand(sql, conn))
                         {
                             cmd.ExecuteNonQuery();
