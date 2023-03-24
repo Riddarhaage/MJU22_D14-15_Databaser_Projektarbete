@@ -53,8 +53,7 @@ namespace Gym_Booking_Manager
                 Console.WriteLine("Enter ID:");
                 string Id = Console.ReadLine(); // <--- Green.
                 user = User.GetUserById(DB, Id);
-                Console.WriteLine("ur ID = " + user.Id);
-                if (user == null) { Console.WriteLine("Get Bent.(No user)."); }
+                if (user == null) { Console.WriteLine($"No user exist with a matching Id ({Id})"); }
             }
             else
             {  // Repeats until user write correct input

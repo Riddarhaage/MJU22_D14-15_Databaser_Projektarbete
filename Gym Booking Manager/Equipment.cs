@@ -23,7 +23,7 @@ namespace Gym_Booking_Manager
 
         public Equipment()
         {
-            
+            this.calendar = new Calendar();
         }
         public Equipment(Dictionary<String, String> constructionArgs)
         {
