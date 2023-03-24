@@ -13,26 +13,30 @@ namespace Gym_Booking_Manager
 
         static void Main(string[] args)
         {
-            //Customer ruben = new Customer("Ruben", "011-131313", "ruben@test.se", Guid.NewGuid());
             /* ---------------------------------------------------->START<------------------------------------------------------------------ */
             GymDatabaseContext DB = new GymDatabaseContext();
-            //DB.Create(ruben);
-            foreach (Staff staff in DB.Read<Staff>())
+            /*
+            foreach (Admin s in DB.Read<Admin>())
             {
-                Console.WriteLine(staff);
+                Console.WriteLine(s);
             }
             foreach (Admin s in DB.Read<Admin>())
             {
-                if (s.name == "Rune")
+                if (s.name == "Admi")
                 {
-                    DB.Delete(s);
+                    DB.Update(new Admin("testAdmin", "0000000", "test@test.se", s.Id),s);
                 }
+            }
+            foreach (Admin s in DB.Read<Admin>())
+            {
+                Console.WriteLine(s);
             }
             Console.ReadKey();
             foreach (Instructor eq in DB.Read<Instructor>())
             {
                 Console.WriteLine(eq);
             }
+            */
             User user = null;
             Console.WriteLine("Hi, there! Welcome to our program. Hope you will enjoy it.");
             Console.WriteLine("Do you want to create a new user(1) or select a existing one(2)?");

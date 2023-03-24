@@ -16,7 +16,6 @@ namespace Gym_Booking_Manager
         //<----- Hidden connection string
         private string connectionString = "Server=localhost;Port=5432;Database=GymBookingManager;User Id=postgres;Password=Riddarhaage1;";
 
-        //connect to the database and implement CRUD methods
         public bool Create<T>(T entity)
         {
             using (var conn = new NpgsqlConnection(connectionString))
@@ -37,7 +36,6 @@ namespace Gym_Booking_Manager
                     }
                 }
                 var sql = $"INSERT INTO {tableName} ({string.Join(", ", columns.Select(c => $"\"{c}\""))}) VALUES ({string.Join(", ", values.Select(v => $"'{v}'"))})";
-                //var sql = $"INSERT INTO {tableName} ({string.Join(", ", columns)}) VALUES ({string.Join(", ", values)})";
                 using (var cmd = new NpgsqlCommand(sql, conn))
                 {
                     cmd.ExecuteNonQuery();
@@ -64,7 +62,6 @@ namespace Gym_Booking_Manager
                         values.Add(value.ToString());
                     }
                 }
-                //var sql = $"DELETE FROM {tableName} WHERE {columns[0]} = {values[0]}";
                 var sql = $"DELETE FROM {tableName} WHERE {columns[0]} = '{values[0]}'";
                 using (var cmd = new NpgsqlCommand(sql, conn))
                 {
@@ -131,11 +128,18 @@ namespace Gym_Booking_Manager
                         oldValues.Add(oldValue.ToString());
                     }
                 }
-                var sql = $"UPDATE {tableName} SET {columns[0]} = {values[0]} WHERE {columns[0]} = {oldValues[0]}";
-                using (var cmd = new NpgsqlCommand(sql, conn))
+                for (int i = 0; i < columns.Count; i++)
                 {
-                    cmd.ExecuteNonQuery();
+                    if (values[i] != oldValues[i])
+                    {
+                        var sql = $"UPDATE {tableName} SET {columns[i]} = '{values[i]}' WHERE {columns[i]} = '{oldValues[i]}'";
+                        using (var cmd = new NpgsqlCommand(sql, conn))
+                        {
+                            cmd.ExecuteNonQuery();
+                        }
+                    }
                 }
+
             }
             return true;
         }
