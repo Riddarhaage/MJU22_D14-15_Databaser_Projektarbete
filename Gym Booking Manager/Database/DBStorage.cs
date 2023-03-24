@@ -11,7 +11,7 @@ using static Gym_Booking_Manager.LocalStorage;
 
 namespace Gym_Booking_Manager
 {
-    public class DBStorage : IDatabase
+    public class DBStorage : IDatabase //För att kunna användas med GymDatabaseContext
     {
         //<----- Hidden connection string
         private string connectionString = "Server=localhost;Port=5432;Database=GymBookingManager;User Id=postgres;Password=Riddarhaage1;";
